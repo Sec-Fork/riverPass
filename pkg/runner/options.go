@@ -19,12 +19,14 @@ import (
 func ParserOptions() *types.Options {
 	options := &types.Options{}
 	set := goflags.NewFlagSet()
-	set.SetDescription(fmt.Sprintf("riverPass %s 数瑞WAF绕过工具 ", Version))
+	set.SetDescription(fmt.Sprintf("riverPass v%s 数瑞WAF绕过工具 ", Version))
 	set.CreateGroup("Input", "输入",
 		set.IntVarP(&options.ProxyPort, "proxy-port", "pp", 8001, "代理监听端口"),
 		set.IntVarP(&options.WebSocketPort, "websocket-port", "wp", 10001, "websocket监听端口"),
 		set.StringVarP(&options.WebSocketToken, "websocket-token", "wt", "123456", "websocket通信密钥"),
+		set.StringSliceVarP(&options.DomainWhitelist, "domain-whitelist", "dw", nil, "域名白名单,只允许指定域名进行代理重放", goflags.FileCommaSeparatedStringSliceOptions),
 	)
+
 	set.CreateGroup("Proxy", "代理",
 		set.StringSliceVarP(&options.Proxy, "proxy", "p", nil, "下游代理", goflags.FileCommaSeparatedStringSliceOptions),
 	)
@@ -39,6 +41,8 @@ func ParserOptions() *types.Options {
     $ riverPass -pp 8081
 运行 riverPass 设置下游代理:
     $ riverPass -proxy http://127.0.0.1:7890
+运行 riverPass 设置白名单只允许指定的域名列表进行代理重放:
+    $ riverPass -dw www.189.cn,www.example.com
 `)
 	set.SetConfigFilePath(filepath.Join(DefaultConfig))
 

@@ -43,16 +43,17 @@ go install -v github.com/wjlin0/riverPass/cmd/riverPass@latest
 riverPass -h
 ```
 ```yaml
-riverPass 1.0.0 数瑞WAF绕过工具
+riverPass v1.0.0 数瑞WAF绕过工具
 
 Usage:
-  ./riverPass [flags]
+  riverPass [flags]
 
 Flags:
 输入:
-  -pp, -proxy-port int          代理监听端口 (default 8001)
-  -wp, -websocket-port int      websocket监听端口 (default 10001)
-  -wt, -websocket-token string  websocket通信密钥 (default "123456")
+  -pp, -proxy-port int             代理监听端口 (default 8001)
+  -wp, -websocket-port int         websocket监听端口 (default 10001)
+  -wt, -websocket-token string     websocket通信密钥 (default "123456")
+  -dw, -domain-whitelist string[]  域名白名单,只允许指定域名进行代理重放
 
 代理:
   -p, -proxy string[]  下游代理
@@ -69,9 +70,8 @@ EXAMPLES:
   $ riverPass -pp 8081
 运行 riverPass 设置下游代理:
   $ riverPass -proxy http://127.0.0.1:7890
-
-
-
+运行 riverPass 设置白名单只允许指定的域名列表进行代理重放:
+  $ riverPass -dw www.189.cn,www.example.com
 ```
 
 **注意**：在此之前你必须导入`mitmproxy`的证书(若没有 可随意运行一次 `riverPass`,它位于你主机的 `$HOME/.mitmproxy` 目录下）

@@ -8,4 +8,5 @@ type Options struct {
 	ProxyPort          int                 `json:"proxyPort"`
 	Proxy              goflags.StringSlice `json:"proxy"`
 	DisableUpdateCheck bool                `json:"disableUpdateCheck"`
+	DomainWhitelist    goflags.StringSlice `json:"domainWhitelist"`
 }

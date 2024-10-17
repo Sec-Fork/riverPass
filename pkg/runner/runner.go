@@ -9,7 +9,10 @@ import (
 	"github.com/wjlin0/riverPass/pkg/types"
 	"github.com/wjlin0/riverPass/pkg/websocketbody"
 	"github.com/wjlin0/riverPass/pkg/websocketserver"
+	proxyutils "github.com/wjlin0/utils/proxy"
+	updateutils "github.com/wjlin0/utils/update"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 )
@@ -24,6 +27,18 @@ type Runner struct {
 }
 
 func (r *Runner) Request(flow *proxy.Flow) {
+	// 判断是否在白名单中
+	u := flow.Request.URL
+	if len(r.Options.DomainWhitelist) > 0 && !func() bool {
+		for _, domain := range r.Options.DomainWhitelist {
+			if strings.Contains(u.Host, domain) {
+				return true
+			}
+		}
+		return false
+	}() {
+		return
+	}
 	// 得到所有的请求头
 	headers := flow.Request.Header
 	flag := headers.Get("Req-Flag")
@@ -118,6 +133,17 @@ func (r *Runner) HandleDelayedRequest(flow *proxy.Flow) {
 }
 
 func (r *Runner) Response(flow *proxy.Flow) {
+	u := flow.Request.URL
+	if len(r.Options.DomainWhitelist) > 0 && !func() bool {
+		for _, domain := range r.Options.DomainWhitelist {
+			if strings.Contains(u.Host, domain) {
+				return true
+			}
+		}
+		return false
+	}() {
+		return
+	}
 	flow.Response.ReplaceToDecodedBody()
 	// 得到所有的响应头
 	headers := flow.Request.Header
@@ -165,6 +191,29 @@ func NewRunner(opts *types.Options) (*Runner, error) {
 		Proxy:     ps,
 		Options:   opts,
 	}
+	if !opts.DisableUpdateCheck {
+		latestVersion, err := updateutils.GetToolVersionCallback(repoName, repoName)()
+		if err != nil {
+			gologger.Error().Msgf("Could not check for update: %s\n", err)
+		} else {
+			gologger.Info().Msgf("Current %s version v%v %v", repoName, Version, updateutils.GetVersionDescription(Version, latestVersion))
+		}
+	} else {
+		gologger.Info().Msgf("Current %s version v%v ", repoName, Version)
+	}
+
+	if types.ProxyURL != "" {
+		// 展示代理
+		parse, _ := url.Parse(types.ProxyURL)
+		if parse.Scheme == proxyutils.HTTPS || parse.Scheme == proxyutils.HTTP {
+			gologger.Info().Msgf("Using %s as proxy server", parse.String())
+		}
+
+		if parse.Scheme == proxyutils.SOCKS5 {
+			gologger.Info().Msgf("Using %s as socket proxy server", parse.String())
+		}
+	}
+
 	ps.AddAddon(run)
 	return run, nil
 
