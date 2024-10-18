@@ -16,7 +16,7 @@ const (
 /_/  /_/ |___/\___/_/        / .___/\__,_/____/____/
 /_/
 `
-	Version  = "1.0.1"
+	Version  = "1.0.2"
 	repoName = "riverPass"
 	user     = "wjlin0"
 )
