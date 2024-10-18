@@ -26,15 +26,15 @@ go install -v github.com/wjlin0/riverPass/cmd/riverPass@latest
 ## 二进制
 下载准备运行的[二进制文件](https://github.com/wjlin0/riverPass/releases/latest)
 
-- [macOS-arm64](https://github.com/wjlin0/riverPass/releases/download/v1.0.0/riverPass_1.0.0_macOS_arm64.zip)
+- [macOS-arm64](https://github.com/wjlin0/riverPass/releases/download/v1.0.1/riverPass_1.0.1_macOS_arm64.zip)
 
-- [macOS-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.0/riverPass_1.0.0_macOS_amd64.zip)
+- [macOS-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.1/riverPass_1.0.1_macOS_amd64.zip)
 
-- [linux-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.0/riverPass_1.0.0_linux_amd64.zip)
+- [linux-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.1/riverPass_1.0.1_linux_amd64.zip)
 
-- [windows-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.0/riverPass_1.0.0_windows_amd64.zip)
+- [windows-amd64](https://github.com/wjlin0/riverPass/releases/download/v1.0.1/riverPass_1.0.1_windows_amd64.zip)
 
-- [windows-386](https://github.com/wjlin0/riverPass/releases/download/v1.0.0/riverPass_1.0.0_windows_386.zip)
+- [windows-386](https://github.com/wjlin0/riverPass/releases/download/v1.0.1/riverPass_1.0.1_windows_386.zip)
 
 
 # 用法
@@ -43,7 +43,7 @@ go install -v github.com/wjlin0/riverPass/cmd/riverPass@latest
 riverPass -h
 ```
 ```yaml
-riverPass v1.0.0 数瑞WAF绕过工具
+riverPass v1.0.1 数瑞WAF绕过工具
 
 Usage:
   riverPass [flags]
